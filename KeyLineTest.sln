@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLineTest", "KeyLineTest\KeyLineTest.csproj", "{68A5FCE0-F707-4C13-84F8-D05B142EDD36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68A5FCE0-F707-4C13-84F8-D05B142EDD36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A5FCE0-F707-4C13-84F8-D05B142EDD36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A5FCE0-F707-4C13-84F8-D05B142EDD36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A5FCE0-F707-4C13-84F8-D05B142EDD36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD5E07BC-8C5B-41E7-802D-8A2A182EEEF5}
+	EndGlobalSection
+EndGlobal
