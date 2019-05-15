@@ -1,0 +1,182 @@
+﻿<p>&nbsp;</p>
+@{
+    /**/
+
+    ViewBag.Title = "Export";
+}
+
+@using (Html.BeginForm("Import", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("url", Url.Action("ExtendNode"))
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group">
+            <span class="btn btn-default ">
+                <input type="file" multiple class="" name="files" id="files" />
+            </span>
+            <span class="btn btn-default " style="line-height:165%">
+                <label class="checkbox" style="margin:inherit">
+                    <input type="checkbox" id="importDB" value="importDB" checked="checked" /> 存資料庫
+                </label>
+            </span>
+            <button type="submit" class=" btn btn-success" style="line-height:165%">
+                傳送
+                <i class="fas fa-location-arrow"></i>
+            </button>
+            <span class="btn btn-default disabled " style="line-height:165%; display:none" id="progress">
+                <span></span>
+                <i class="glyphicon glyphicon-check " style="display:none ;color:forestgreen"></i>
+
+            </span>
+        </div>
+        <div class="btn-group">
+            <span class="btn btn-default " style="line-height:165%">
+                <label class="radio" style="margin:inherit">
+                    <input type="radio" value="standard" name="layout" checked="checked" /> 關聯
+                    <i class="fas fa-project-diagram"></i>
+                </label>
+            </span>
+            <button type="button" class="btn btn-default" id="adjacent" style="line-height:165%">
+                自動排版
+            </button>
+            <span class="btn btn-default  " style="line-height:165%">
+                <label class="radio" style="margin:inherit">
+                    <input type="radio" value="hierarchy" name="layout" /> 階層
+                    <i class="fas fa-sitemap"></i>
+                </label>
+            </span>
+
+        </div>
+        <div class="btn-group search">
+            <span class="btn-group">
+                <input type="text" class="form-control " placeholder="搜尋" style="height:36.94px" />
+            </span>
+            <span class="btn btn-default" role="button" style="line-height:165%">
+                <i class="glyphicon glyphicon-search"></i>
+            </span>
+        </div>
+        <div class=" btn-group">
+            <button type="button" class="btn btn-default" style="line-height:165%" id="exportBtn">
+                <i class="far fa-image"></i>
+            </button>
+        </div>
+        <div class=" btn-group">
+            <button type="button" class="btn btn-default" style="line-height:165%" id="test">
+                <i class="fas fa-user-tag"></i>
+            </button>
+        </div>
+
+
+    </div>
+    <p id="showContent">
+        @ViewBag.Msg
+    </p>
+
+    <div id="lhs" class="">
+        <div class="cichart">
+            <div id="kl" style="width: 100%; height: 630px;"></div>
+        </div>
+    </div>
+    <span id="tooltipHidden" style="position:absolute ;"></span>
+    <div style="display:none;">
+        <div class="tooltipTitle"><strong></strong></div>
+        <div class="tooltipContent">
+            <div class="list-group popover-content-inside level1">
+                <button type="button" class="list-group-item" data-linkid="" onclick="popoverBtnClick(this)" style="width:100%"><i class="glyphicon glyphicon-chevron-right"></i></button>
+            </div>
+            <div class="popover-content-inside level2">
+                <button type="button" onclick="popoverReturn()" class="btn btn-default" style="width:100%"><i class="glyphicon glyphicon-chevron-left"></i>返回</button>
+                <table>
+                    <tbody>
+                        <tr> <td style='text-align:right' class='col-md-5'> <strong></strong></td> <td></td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ul id="contextMenuNode" role="menu" class="kl-dropdown-menu">
+        <li> <a id="getPhoneOwner" tabindex="-1" href="#" style="display:none;" >查看持有人紀錄</a></li>
+        <li> <a id="getPhone" tabindex="-1" href="#" style="display:none; " >查看電話紀錄</a></li>
+
+    </ul>
+
+}
+
+
+@section Scripts{
+    <script src="~/Scripts/keylines.js"></script>
+    <script src="~/Scripts/keylinetest.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">*@
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>*@
+
+    <link href="~/Content/all.css" rel="stylesheet" />
+    <script src="~/Scripts/webfontloader.js"></script>
+    <script type="text/javascript">
+            var data;
+        $(document).ready(function () {
+            $("button[type=submit]").click(function () {
+                event.preventDefault();
+                $('#progress').show('slow').children('i').hide();
+                UploadFile();
+
+            });
+
+            function UploadFile()
+            {
+                var formData = new FormData();
+                $.each($("#files").get(0).files, function (i, file) {
+                    formData.append('files', file);
+                })
+                formData.append('connId', connId);
+                formData.append('importDB', $("#importDB").is(':checked'))
+
+
+                var ajaxRequest = $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("Import")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (res) {
+
+                        //data處理
+                        data = dataProcess(res);
+                        //$("#showContent").text(JSON.stringify(data));
+                        console.log(data);
+                        $('#progress').children('i').show().siblings('span').text('');
+
+                        WebFontKeyLines();
+                    },
+                    error: function (event) {
+                        console.log(event);
+                    }
+                });
+
+
+            }
+
+            //SingalR
+            var connId;
+            var hub = $.connection.fileUploaderHub;
+            $.connection.hub.start().done(function () {
+                connId = $.connection.hub.id;
+            })
+
+            hub.client.updateProgress = function (name, percentage, message) {
+                $('#progress').children('span').text('處理檔案：'+ name +'   \n進度：'+ percentage+' %');
+                if (message) {
+                    alert(message);
+                }
+            }
+
+
+
+
+
+    })
+    </script>
+
+}

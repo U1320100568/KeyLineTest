@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KeyLinesTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Case">
+          <Key>
+            <PropertyRef Name="CaseID" />
+          </Key>
+          <Property Name="CaseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Person" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="Related" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Record">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Target" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Opponent" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Forward" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="Period" Type="nvarchar" MaxLength="10" />
+          <Property Name="ComType" Type="nvarchar" MaxLength="10" />
+          <Property Name="IMEI" Type="nvarchar" MaxLength="50" />
+          <Property Name="BaseStation" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Relationship">
+          <Key>
+            <PropertyRef Name="RelationID" />
+          </Key>
+          <Property Name="RelationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonID1" Type="int" Nullable="false" />
+          <Property Name="PersonID2" Type="int" Nullable="false" />
+          <Property Name="Relationship" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityContainer Name="KeyLinesTestModelStoreContainer">
+          <EntitySet Name="Case" EntityType="Self.Case" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Record" EntityType="Self.Record" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Relationship" EntityType="Self.Relationship" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KeyLinesTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Record">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Target" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Opponent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Forward" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="Period" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ComType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IMEI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BaseStation" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="KeyLinesTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Record" EntityType="Self.Record" />
+          <EntitySet Name="Person" EntityType="KeyLinesTestModel.Person" />
+          <EntitySet Name="Case" EntityType="KeyLinesTestModel.Case" />
+          <EntitySet Name="Relationship" EntityType="KeyLinesTestModel.Relationship" />
+        </EntityContainer>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Case">
+          <Key>
+            <PropertyRef Name="CaseID" />
+          </Key>
+          <Property Name="CaseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Person" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="Related" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Relationship">
+          <Key>
+            <PropertyRef Name="RelationID" />
+          </Key>
+          <Property Name="RelationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID1" Type="Int32" Nullable="false" />
+          <Property Name="PersonID2" Type="Int32" Nullable="false" />
+          <Property Name="Relationship1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KeyLinesTestModelStoreContainer" CdmEntityContainer="KeyLinesTestEntities">
+          <EntitySetMapping Name="Record">
+            <EntityTypeMapping TypeName="KeyLinesTestModel.Record">
+              <MappingFragment StoreEntitySet="Record">
+                <ScalarProperty Name="BaseStation" ColumnName="BaseStation" />
+                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
+                <ScalarProperty Name="ComType" ColumnName="ComType" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="Opponent" ColumnName="Opponent" />
+                <ScalarProperty Name="Forward" ColumnName="Forward" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Person">
+            <EntityTypeMapping TypeName="KeyLinesTestModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Case">
+            <EntityTypeMapping TypeName="KeyLinesTestModel.Case">
+              <MappingFragment StoreEntitySet="Case">
+                <ScalarProperty Name="Related" ColumnName="Related" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="Person" ColumnName="Person" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Relationship">
+            <EntityTypeMapping TypeName="KeyLinesTestModel.Relationship">
+              <MappingFragment StoreEntitySet="Relationship">
+                <ScalarProperty Name="Relationship1" ColumnName="Relationship" />
+                <ScalarProperty Name="PersonID2" ColumnName="PersonID2" />
+                <ScalarProperty Name="PersonID1" ColumnName="PersonID1" />
+                <ScalarProperty Name="RelationID" ColumnName="RelationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
